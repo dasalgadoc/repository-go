@@ -1,4 +1,4 @@
-# Infrastructure Leaks
+# 🎢 Infrastructure Leaks
 
 A infrastructure leak occurs when an interface discloses implementation details to its consumers. This is a concern since services shouldn't be aware of the specifics of the implementation or how a repository operates.
 
