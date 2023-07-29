@@ -2,6 +2,7 @@ package application
 
 import (
 	"dasalgadoc.com/repository-go/01-infrastructure_leaks/domain"
+	domain2 "dasalgadoc.com/repository-go/courses/domain"
 	shared "dasalgadoc.com/repository-go/shared/domain"
 )
 
@@ -19,7 +20,7 @@ func NewCourseCreator(
 }
 
 func (c *CourseCreator) Invoke(name string) error {
-	course, err := domain.CreateCourse(name)
+	course, err := domain2.CreateCourse(name)
 	if err != nil {
 		return err
 	}
