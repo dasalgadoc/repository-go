@@ -37,3 +37,52 @@ func (c *CourseSearcher) Invoke(id string) (any, error) {
 ```
 
 Both implementations use the same interface, so the service doesn't know which repository is being used.
+
+## 🖐🏻 But, stop
+
+If the cache implements the same interface as the repository, how about the writing data methods?
+
+There is no limitation that a cache implementation can rely on a repository implementation to write data.
+
+```go
+func (m *InMemoryCache) Save(course domain.Course) error {
+    err := m.repository.Save(course)
+    if err != nil {
+    	return err
+    }
+    
+    courseId, err := domain.NewCourseIdFromString(course.Id())
+    if err != nil {
+    	return err
+    }
+    m.courses[*courseId] = &course
+    
+    return nil
+}
+
+```
+
+And some refactor in the cache based on its own repository is also valid.
+
+```go
+func (m *InMemoryCache) Search(id domain.CourseId) (*domain.Course, error) {
+    course, ok := m.courses[id]
+    if !ok {
+    	return nil, errors.New("course not found")
+    }
+    return course, nil
+}
+```
+
+or
+
+```go
+func (m *InMemoryCache) Search(id domain.CourseId) (*domain.Course, error) {
+    course, ok := m.courses[id]
+    if !ok {
+    	return m.repository.Search(id)
+    }
+    return course, nil
+}
+```
+
