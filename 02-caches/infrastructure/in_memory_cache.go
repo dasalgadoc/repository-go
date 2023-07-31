@@ -3,7 +3,6 @@ package infrastructure
 import (
 	domain2 "dasalgadoc.com/repository-go/02-caches/domain"
 	"dasalgadoc.com/repository-go/courses/domain"
-	"errors"
 )
 
 type InMemoryCache struct {
@@ -14,7 +13,7 @@ type InMemoryCache struct {
 func (m *InMemoryCache) Search(id domain.CourseId) (*domain.Course, error) {
 	course, ok := m.courses[id]
 	if !ok {
-		return nil, errors.New("course not found")
+		return nil, nil
 	}
 	return course, nil
 }

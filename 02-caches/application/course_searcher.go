@@ -26,10 +26,16 @@ func (c *CourseSearcher) Invoke(id string) (any, error) {
 
 	course, err := c.cache.Search(*courseId)
 	if err != nil {
-		course, err = c.repository.Search(*courseId)
-		if err != nil {
-			return nil, err
-		}
+		return nil, err
+	}
+
+	if course != nil {
+		return course, nil
+	}
+
+	course, err = c.repository.Search(*courseId)
+	if err != nil {
+		return nil, err
 	}
 
 	return course, nil
