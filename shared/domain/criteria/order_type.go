@@ -2,22 +2,22 @@ package criteria
 
 import "errors"
 
-type Type string
+type AscDesType string
 
 const (
-	ASC  Type = "ASC"
-	DESC Type = "DESC"
+	ASC  AscDesType = "ASC"
+	DESC AscDesType = "DESC"
 )
 
 type OrderType struct {
-	value Type
+	value AscDesType
 }
 
 func (o *OrderType) Value() string {
 	return string(o.value)
 }
 
-func isValidOrderType(value OrderType) bool {
+func isValidOrderType(value AscDesType) bool {
 	switch value {
 	case ASC, DESC:
 		return true
@@ -30,7 +30,7 @@ func NewOrderType(value string) (*OrderType, error) {
 		value = string(ASC)
 	}
 
-	orderType := Type(value)
+	orderType := AscDesType(value)
 	if !isValidOrderType(orderType) {
 		return nil, errors.New("invalid order type")
 	}
